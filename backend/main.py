@@ -18,7 +18,7 @@ app = FastAPI()
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -112,16 +112,10 @@ def get_history(range: str = "1h"):
 @app.websocket("/ws/live")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+    logger.info("connection open")
     try:
         while True:
-            # Poll for latest data or simulate live stream
-            # For now, we'll just push a dummy "live" data point or last known point
-            # In a real scenario, this would subscribe to an InfluxDB stream or Redis
-            
-            # Using get_history for last 10 seconds as a proxy for 'live'
-            # data = db.get_history("-10s") 
-            
-            # Mocking live data for smooth UI demo if backend is empty
+            # Mocking live data for smooth UI demo
             import random
             from datetime import datetime
             
@@ -138,7 +132,10 @@ async def websocket_endpoint(websocket: WebSocket):
         logger.info("Client disconnected")
     except Exception as e:
         logger.error(f"WebSocket error: {e}")
-        await websocket.close()
+        try:
+            await websocket.close()
+        except:
+            pass
 
 frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 if os.path.exists(frontend_dist):

@@ -15,8 +15,9 @@ export default defineConfig(({ mode }) => {
                     changeOrigin: true,
                 },
                 '/ws': {
-                    target: 'ws://localhost:8000',
+                    target: 'http://localhost:8000',
                     ws: true,
+                    rewrite: (path) => path.replace(/^\/ws/, '/ws'),
                 }
             }
         },
