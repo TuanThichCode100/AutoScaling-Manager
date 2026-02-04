@@ -1,0 +1,11 @@
+[project]
+name = "repl-nix-workspace"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "influxdb-client>=1.50.0",
+    "joblib>=1.5.3",
+    "numpy>=2.4.2",
+    "pandas>=3.0.0",
+]
