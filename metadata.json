@@ -1,0 +1,5 @@
+{
+  "name": "ScaleOps Dashboard",
+  "description": "A high-fidelity replica of the ScaleOps Multi-Model Comparison dashboard featuring real-time RPS monitoring and predictive scaling metrics.",
+  "requestFramePermissions": []
+}
