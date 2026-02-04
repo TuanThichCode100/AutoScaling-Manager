@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pandas
+numpy
+scikit-learn
+lightgbm
+joblib
+influxdb-client
+python-multipart
+websockets
+fastparquet

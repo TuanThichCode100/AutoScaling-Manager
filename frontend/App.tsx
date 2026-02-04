@@ -22,10 +22,10 @@ export default function App() {
                 const data = await response.json();
                 // Map backend data to ChartDataPoint
                 const formattedData = data.map((d: any) => ({
-                    time: new Date(d.timestamp).toLocaleTimeString([], { hour12: false }), // Simple formatting
-                    actual: d.actual_rps,
-                    model1: d.predicted_rps, // Assuming model1 is predicted
-                    model2: null // Or handle multiple models if available
+                    time: new Date(d.time).toLocaleTimeString([], { hour12: false }), // Backend now returns 'time', not 'timestamp'
+                    actual: d.actual, // Use 'actual' directly
+                    model1: d.model1, // Use 'model1' directly
+                    model2: d.model2 // Use 'model2' directly
                 }));
                 setHistoricalData(formattedData);
             }
@@ -60,15 +60,15 @@ export default function App() {
             ws.onmessage = (event) => {
                 try {
                     const point = JSON.parse(event.data);
-                    // Point format: { timestamp, actual_rps, predicted_rps }
-                    const timeStr = new Date(point.timestamp).toLocaleTimeString([], { hour12: false });
+                    // Point format: { time, actual, model1, model2 }
+                    const timeStr = new Date(point.time).toLocaleTimeString([], { hour12: false });
 
                     setRealtimeData(prev => {
                         const newData = [...prev, {
                             time: timeStr,
-                            actual: point.actual_rps || 0,
-                            model1: point.predicted_rps || 0,
-                            model2: null
+                            actual: point.actual || 0, // Assume WS sends 'actual'
+                            model1: point.model1 || 0, // Assume WS sends 'model1'
+                            model2: point.model2 || 0  // Assume WS sends 'model2'
                         }];
                         // Keep last 50 points
                         return newData.slice(-50);
